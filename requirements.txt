@@ -1,4 +1,3 @@
-transformers
 streamlit
-tensorFlow
-torch
+transformers
+torch  # Or tensorflow if you are using TensorFlow
