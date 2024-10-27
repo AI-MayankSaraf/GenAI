@@ -1,1 +1,2 @@
-requirements file added
+transformers
+streamlit
