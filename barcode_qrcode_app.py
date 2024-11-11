@@ -21,19 +21,22 @@ if option == "Generate QR Code":
     
     if st.button("Generate QR Code"):
         if user_input:
-            qr = qrcode.make(user_input)
-            qr_image = np.array(qr)
-            st.image(qr_image, caption="Generated QR Code", use_column_width=True)
+            # Create a QR code with custom colors
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_H,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(user_input)
+            qr.make(fit=True)
 
-            # Option to download the QR code
-            qr.save("generated_qr_code.png")
-            with open("generated_qr_code.png", "rb") as file:
-                btn = st.download_button(
-                    label="Download QR Code",
-                    data=file,
-                    file_name="generated_qr_code.png",
-                    mime="image/png"
-                )
+            # Generate the QR code image with white background and black fill
+            img = qr.make_image(fill_color="black", back_color="white")
+
+            # Convert to a format that Streamlit can display (PIL to numpy)
+            img = img.convert("RGB")
+            st.image(np.array(img), caption="Generated QR Code", use_column_width=True)
 
 elif option == "Generate Barcode":
     st.header("Generate Barcode")
