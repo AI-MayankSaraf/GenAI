@@ -1,91 +1,75 @@
+import streamlit as st
 import cv2
 import numpy as np
 from pyzbar.pyzbar import decode
-import streamlit as st
+import qrcode
+from barcode import Code128
+from barcode.writer import ImageWriter
 from PIL import Image
-import io
 
-# Function to decode barcodes/QR codes and return bounding boxes
-def decode_barcodes_qrcodes(image):
-    # Decode barcodes and QR codes in the image
-    decoded_objects = decode(image)
-    
-    # For storing bounding boxes and data for each object
-    barcode_info = []
-    
-    for obj in decoded_objects:
-        # Get the bounding box coordinates
-        points = obj.polygon
-        if len(points) == 4:
-            pts = [tuple(point) for point in points]
-            barcode_info.append({
-                "type": obj.type,
-                "data": obj.data.decode('utf-8'),
-                "bbox": pts
-            })
-        else:
-            # If the polygon is not 4 points, use the convex hull (e.g., QR codes)
-            hull = cv2.convexHull(np.array([point for point in points], dtype=np.float32))
-            barcode_info.append({
-                "type": obj.type,
-                "data": obj.data.decode('utf-8'),
-                "bbox": hull
-            })
-    
-    return barcode_info
+st.title("QR Code and Barcode Generator")
 
-# Function to draw bounding boxes around detected barcodes/QR codes
-def draw_bounding_boxes(image, barcode_info):
-    for info in barcode_info:
-        # Draw the bounding box on the image
-        cv2.polylines(image, [np.array(info['bbox'], dtype=np.int32)], isClosed=True, color=(0, 255, 0), thickness=2)
+# Sidebar for selection
+option = st.sidebar.selectbox(
+    "Choose an option",
+    ["Generate QR Code", "Generate Barcode", "Decode QR/Barcode"]
+)
+
+if option == "Generate QR Code":
+    st.header("Generate QR Code")
+    user_input = st.text_input("Enter text/data for QR Code:")
+    
+    if st.button("Generate QR Code"):
+        if user_input:
+            qr = qrcode.make(user_input)
+            qr_image = np.array(qr)
+            st.image(qr_image, caption="Generated QR Code", use_column_width=True)
+
+            # Option to download the QR code
+            qr.save("generated_qr_code.png")
+            with open("generated_qr_code.png", "rb") as file:
+                btn = st.download_button(
+                    label="Download QR Code",
+                    data=file,
+                    file_name="generated_qr_code.png",
+                    mime="image/png"
+                )
+
+elif option == "Generate Barcode":
+    st.header("Generate Barcode")
+    user_input = st.text_input("Enter text/data for Barcode:")
+    
+    if st.button("Generate Barcode"):
+        if user_input:
+            barcode = Code128(user_input, writer=ImageWriter())
+            barcode.save("generated_barcode")
+            barcode_image = Image.open("generated_barcode.png")
+            st.image(barcode_image, caption="Generated Barcode", use_column_width=True)
+
+            # Option to download the barcode
+            with open("generated_barcode.png", "rb") as file:
+                btn = st.download_button(
+                    label="Download Barcode",
+                    data=file,
+                    file_name="generated_barcode.png",
+                    mime="image/png"
+                )
+
+elif option == "Decode QR/Barcode":
+    st.header("Decode QR/Barcode")
+    uploaded_file = st.file_uploader("Upload an image containing QR/Barcode", type=["png", "jpg", "jpeg"])
+    
+    if uploaded_file is not None:
+        image = Image.open(uploaded_file)
+        image_array = np.array(image)
         
-        # Place the decoded data next to the barcode/QR code
-        text_position = (info['bbox'][0][0], info['bbox'][0][1] - 10)
-        cv2.putText(image, info['data'], text_position, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-    
-    return image
+        # Decode using pyzbar
+        decoded_objects = decode(image_array)
 
-# Function to process image from Streamlit's uploaded file
-def process_image(image_data):
-    # Convert the image into an OpenCV format (BGR)
-    image = np.array(image_data)
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    
-    # Detect and decode barcodes/QR codes
-    barcode_info = decode_barcodes_qrcodes(image)
-    
-    # Draw bounding boxes on the image
-    image_with_boxes = draw_bounding_boxes(image, barcode_info)
-    
-    return image_with_boxes, barcode_info
-
-# Streamlit Web App
-
-st.title("Barcode and QR Code Detector")
-
-st.write("Upload an image to detect barcodes and QR codes.")
-
-# File uploader for the image
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-
-if uploaded_file is not None:
-    # Read the uploaded image using PIL
-    image_data = Image.open(uploaded_file)
-    
-    # Process the image and detect barcodes/QR codes
-    image_with_boxes, barcode_info = process_image(image_data)
-    
-    # Convert image back to PIL format for display
-    image_with_boxes_pil = Image.fromarray(cv2.cvtColor(image_with_boxes, cv2.COLOR_BGR2RGB))
-    
-    # Display the processed image
-    st.image(image_with_boxes_pil, caption="Processed Image with Barcodes/QR Codes Detected", use_column_width=True)
-    
-    # Display the detected barcode information
-    if barcode_info:
-        st.write("Detected Barcodes/QR Codes:")
-        for info in barcode_info:
-            st.write(f"Type: {info['type']}, Data: {info['data']}")
-    else:
-        st.write("No barcodes or QR codes detected.")
+        if decoded_objects:
+            for obj in decoded_objects:
+                st.write(f"Type: {obj.type}")
+                st.write(f"Data: {obj.data.decode('utf-8')}")
+            st.image(image, caption="Uploaded Image", use_column_width=True)
+        else:
+            st.write("No QR/Barcode detected in the image.")
