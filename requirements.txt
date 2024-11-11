@@ -1,9 +1,9 @@
 streamlit
-transformers
-torch  
-tf-keras
+--transformers
+--torch  
+--tf-keras
 opencv-python 
 pyzbar 
 qrcode[pil] 
 python-barcode 
-Pillow
+Pillow 
