@@ -4,3 +4,5 @@ torch
 tf-keras
 opencv-python 
 pyzbar
+qrcode[pil] 
+python-barcode
