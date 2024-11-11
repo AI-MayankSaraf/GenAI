@@ -1,4 +1,7 @@
 streamlit
+transformers
+torch  
+tf-keras
 opencv-python
 pyzbar
 qrcode[pil]
