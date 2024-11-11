@@ -3,6 +3,7 @@ transformers
 torch  
 tf-keras
 opencv-python 
-pyzbar
+pyzbar 
 qrcode[pil] 
-python-barcode
+python-barcode 
+Pillow
