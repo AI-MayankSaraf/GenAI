@@ -1,6 +1,6 @@
 streamlit
-opencv-python 
-pyzbar 
-qrcode[pil] 
-python-barcode 
-Pillow 
+opencv-python
+pyzbar
+qrcode[pil]
+python-barcode
+Pillow
