@@ -26,9 +26,15 @@ uploaded_file = st.file_uploader("Upload an image or video", type=["jpg", "jpeg"
 
 # Function to process and display image detections
 def process_image(image):
+    # Ensure the image is RGB
+    if len(image.shape) == 2 or image.shape[-1] != 3:
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    # Run the model and plot the results
     results = model(image)
-    processed_image = results[0].plot()  # Draws the detections on the image
+    processed_image = results[0].plot()
     return processed_image
+
 
 # Function to process and display video detections
 def process_video(video_path):
