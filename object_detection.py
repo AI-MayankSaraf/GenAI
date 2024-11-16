@@ -9,7 +9,7 @@ import tempfile
 st.set_page_config(
     page_title='YOLO Model Detection',
     page_icon='🦾',
-    layout='centered',  # Use wide layout for better space utilization
+    layout='wide',  # Use wide layout for better space utilization
     initial_sidebar_state='expanded'
 )
 
