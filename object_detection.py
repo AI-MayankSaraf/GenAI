@@ -68,8 +68,8 @@ if uploaded_file:
         processed_image = process_image(image)
         st.image(processed_image, caption='Processed Image', use_container_width=True)
         
-        st.subheader('Uploaded Image')
-        st.image(image, caption='Original Image', use_container_width=True)
+        #st.subheader('Uploaded Image')
+        #st.image(image, caption='Original Image', use_container_width=True)
 
     elif uploaded_file.type == 'video/mp4':
         with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
@@ -79,8 +79,8 @@ if uploaded_file:
         st.subheader('Detection Result')
         process_video(video_path)
         
-        st.subheader('Uploaded Video')
-        st.video(video_path)      
+        #st.subheader('Uploaded Video')
+        #st.video(video_path)      
 
 # Sidebar footer
 st.sidebar.info('Adjust settings as needed to explore different models.')
