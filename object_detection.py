@@ -9,7 +9,7 @@ import tempfile
 st.set_page_config(
     page_title='YOLO Model Detection',
     page_icon='🦾',
-    layout='wide',  # Use wide layout for better space utilization
+    layout='centered',  # Use wide layout for better space utilization
     initial_sidebar_state='expanded'
 )
 
@@ -65,7 +65,7 @@ if uploaded_file:
         image = np.array(image)
 
         st.subheader('Uploaded Image')
-        st.image(image, caption='Original Image')
+        st.image(image, caption='Original Image', width=600,height=450)
 
         st.subheader('Detection Result')
         processed_image = process_image(image)
