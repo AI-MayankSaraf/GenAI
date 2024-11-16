@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 # App header and description
-st.title('🔍 YOLO Object Detection Application')
+st.title('🔍 YOLO Object Detection App')
 st.markdown(
     """
     **Upload an image or video and select a YOLO model for object detection.**
@@ -65,7 +65,7 @@ if uploaded_file:
         image = np.array(image)
 
         st.subheader('Uploaded Image')
-        st.image(image, caption='Original Image', width=600)
+        st.image(image, caption='Original Image', use_container_width=True)
 
         st.subheader('Detection Result')
         processed_image = process_image(image)
