@@ -14,11 +14,11 @@ st.markdown('Upload an image or video and select a YOLO model to detect objects.
 
 # Sidebar for model selection and configuration
 st.sidebar.header('Model Selection and Settings')
-model_options = ['yolov8n.pt', 'yolov8s.pt', 'yolov8m.pt', 'yolov8l.pt', 'yolov8x.pt','yolov11n.pt','yolov11n-seg.pt']
+model_options = ['yolov8n.pt', 'yolov8s.pt','yolov11n.pt','yolov11n-seg.pt']
 selected_model = st.sidebar.selectbox('Choose a YOLO model', model_options)
-model = 'models\\'+selected_model
+£model = 'models\\'+selected_model
 # Load the selected YOLO model
-model = YOLO(model)
+model = YOLO(selected_model)
 st.sidebar.success(f'Selected Model: {selected_model}')
 
 # File uploader for images and videos
