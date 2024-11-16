@@ -6,7 +6,12 @@ import numpy as np
 import tempfile
 
 # Set up Streamlit page configuration
-st.set_page_config(page_title='YOLO Model Detection', layout='wide')
+st.set_page_config(
+    page_title='YOLO Model Detection',
+    page_icon='🦾',
+    layout='wide',
+    initial_sidebar_state='expanded'
+)
 
 # Streamlit app header
 st.title('Object Detection Application')
@@ -34,7 +39,6 @@ def process_image(image):
     results = model(image)
     processed_image = results[0].plot()
     return processed_image
-
 
 # Function to process and display video detections
 def process_video(video_path):
