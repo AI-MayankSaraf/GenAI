@@ -16,7 +16,7 @@ st.markdown('Upload an image or video and select a YOLO model to detect objects.
 st.sidebar.header('Model Selection and Settings')
 model_options = ['yolov8n.pt', 'yolov8s.pt','yolov11n.pt','yolov11n-seg.pt']
 selected_model = st.sidebar.selectbox('Choose a YOLO model', model_options)
-£model = 'models\\'+selected_model
+# model = 'models\\'+selected_model
 # Load the selected YOLO model
 model = YOLO(selected_model)
 st.sidebar.success(f'Selected Model: {selected_model}')
