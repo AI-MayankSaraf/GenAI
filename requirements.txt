@@ -7,3 +7,4 @@ pyzbar
 qrcode[pil]
 python-barcode
 Pillow
+ultralytics
