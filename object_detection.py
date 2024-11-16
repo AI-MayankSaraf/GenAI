@@ -65,7 +65,7 @@ if uploaded_file:
         image = np.array(image)
 
         st.subheader('Uploaded Image')
-        st.image(image, caption='Original Image', use_container_width=True)
+        st.image(image, caption='Original Image', use_container_width=False)
 
         st.subheader('Detection Result')
         processed_image = process_image(image)
