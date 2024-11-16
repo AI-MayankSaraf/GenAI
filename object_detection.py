@@ -76,11 +76,11 @@ if uploaded_file:
             temp_video.write(uploaded_file.read())
             video_path = temp_video.name
 
-        st.subheader('Uploaded Video')
-        st.video(video_path)
-
         st.subheader('Detection Result')
         process_video(video_path)
+        
+        st.subheader('Uploaded Video')
+        st.video(video_path)      
 
 # Sidebar footer
 st.sidebar.info('Adjust settings as needed to explore different models.')
