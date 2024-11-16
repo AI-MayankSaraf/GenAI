@@ -43,7 +43,7 @@ def process_video(video_path):
         results = model(frame)
         frame = results[0].plot()
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        stframe.image(frame_rgb, channels="RGB", use_column_width=True)
+        stframe.image(frame_rgb, channels="RGB", use_container_width=True)
 
     cap.release()
 
@@ -54,12 +54,12 @@ if uploaded_file:
         image = np.array(image)
 
         st.subheader('Uploaded Image')
-        st.image(image, caption='Original Image', use_column_width=True)
+        st.image(image, caption='Original Image', use_container_width=True)
 
         # Process the image and display the result
         st.subheader('Detection Result')
         processed_image = process_image(image)
-        st.image(processed_image, caption='Processed Image', use_column_width=True)
+        st.image(processed_image, caption='Processed Image', use_container_width=True)
 
     elif uploaded_file.type == 'video/mp4':
         with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
