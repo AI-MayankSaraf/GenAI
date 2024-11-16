@@ -64,12 +64,12 @@ if uploaded_file:
         image = Image.open(uploaded_file)
         image = np.array(image)
 
-        st.subheader('Uploaded Image')
-        st.image(image, caption='Original Image', use_container_width=True)
-
         st.subheader('Detection Result')
         processed_image = process_image(image)
         st.image(processed_image, caption='Processed Image', use_container_width=True)
+        
+        st.subheader('Uploaded Image')
+        st.image(image, caption='Original Image', use_container_width=True)
 
     elif uploaded_file.type == 'video/mp4':
         with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
